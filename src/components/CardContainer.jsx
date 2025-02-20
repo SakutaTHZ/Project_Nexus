@@ -5,7 +5,7 @@ const CardContainer = ({ customClass = "", style = {} }) => {
   return (
     <>
       <div
-        className={`w-24 h-36 rounded-md border-dotted border-2 border-opacity-45 backdrop-blur-lg transition-all ease-[cubic-bezier(0.6, -0.28, 0.735, 0.045)] delay-200 ${customClass}`}
+        className={`w-24 h-36 rounded-md border border-opacity-45 backdrop-blur-lg transition-all ease-[cubic-bezier(0.6, -0.28, 0.735, 0.045)] delay-200 ${customClass}`}
         style={style}
       >
         <img src={Character} alt="Character" className="w-full h-full rounded-md" />
