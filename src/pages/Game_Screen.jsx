@@ -5,8 +5,9 @@ import DicePick from "./DicePick";
 function GameScreen() {
   const [currentTurn, setCurrentTurn] = useState(true);
   const [rotationTrigger, setRotationTrigger] = useState(false);
-  const [player1] = useState({
+  const [player1, setPlayer1] = useState({
     name: "Player 1",
+    soulPoints: 0,
     rotation: true,
     characters: [
       { name: "Aegis Warden", role: "Tank" },
@@ -14,8 +15,10 @@ function GameScreen() {
       { name: "Pyrael the Frost Fire Sage", role: "Mage" },
     ],
   });
-  const [player2] = useState({
+  
+  const [player2, setPlayer2] = useState({
     name: "Player 2",
+    soulPoints: 0,
     rotation: true,
     characters: [
       { name: "Aegis Warden", role: "Tank" },
@@ -32,9 +35,22 @@ function GameScreen() {
 
   const [selectedCard, setSelectedCard] = useState(null);
 
-  const handleCardSelected = (cardNumber) => {
+  const handleCardSelected = (cardNumber, index) => {
     setSelectedCard(cardNumber);
-    console.log("Card Selected:", cardNumber);
+    console.log("Card Selected:", cardNumber); // ✅ Correct card number now
+    console.log("Index Selected:", index); // ✅ Correct index
+  
+    if (currentTurn) {
+      setPlayer1((prev) => ({
+        ...prev,
+        soulPoints: prev.soulPoints + cardNumber,
+      }));
+    } else {
+      setPlayer2((prev) => ({
+        ...prev,
+        soulPoints: prev.soulPoints + cardNumber,
+      }));
+    }
   };
 
   const [isDicePickVisible, setIsDicePickVisible] = useState(false);
@@ -47,7 +63,7 @@ function GameScreen() {
       {isDicePickVisible && (
         <DicePick
           singleMode={true}
-          player={true}
+          player={currentTurn}
           onCardSelected={handleCardSelected}
           onClose={handleClose}
         />
@@ -59,9 +75,11 @@ function GameScreen() {
           } title_font text-2xl `}
         >
           {currentTurn ? "Player 1's Turn" : "Player 2's Turn"}
+          {"  "}
+          <span className="text-purple-500 font-bold">+{selectedCard}</span>
         </p>
 
-        <h1> {selectedCard}</h1>
+
         <button
           className={`text-white p-1 px-6 rounded-md transition ${
             currentTurn ? "bg-[#37a1f9]" : "bg-[#f93737]"
