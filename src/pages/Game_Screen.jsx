@@ -10,20 +10,44 @@ function GameScreen() {
     soulPoints: 0,
     rotation: true,
     characters: [
-      { name: "Aegis Warden", role: "Tank" },
-      { name: "Elandra Aurelian", role: "Healer" },
-      { name: "Pyrael the Frost Fire Sage", role: "Mage" },
+      { name: "Aegis Warden", role: "Tank", health: 100, sp: 0, statuses: [] },
+      {
+        name: "Elandra Aurelian",
+        role: "Healer",
+        health: 100,
+        sp: 0,
+        statuses: [],
+      },
+      {
+        name: "Pyrael the Frost Fire Sage",
+        role: "Mage",
+        health: 100,
+        sp: 0,
+        statuses: [],
+      },
     ],
   });
-  
+
   const [player2, setPlayer2] = useState({
     name: "Player 2",
     soulPoints: 0,
     rotation: true,
     characters: [
-      { name: "Aegis Warden", role: "Tank" },
-      { name: "Elandra Aurelian", role: "Healer" },
-      { name: "Pyrael the Frost Fire Sage", role: "Mage" },
+      { name: "Aegis Warden", role: "Tank", health: 100, sp: 0, statuses: [] },
+      {
+        name: "Elandra Aurelian",
+        role: "Healer",
+        health: 100,
+        sp: 0,
+        statuses: [],
+      },
+      {
+        name: "Pyrael the Frost Fire Sage",
+        role: "Mage",
+        health: 100,
+        sp: 0,
+        statuses: [],
+      },
     ],
   });
 
@@ -35,11 +59,9 @@ function GameScreen() {
 
   const [selectedCard, setSelectedCard] = useState(null);
 
-  const handleCardSelected = (cardNumber, index) => {
+  const handleCardSelected = (cardNumber) => {
     setSelectedCard(cardNumber);
-    console.log("Card Selected:", cardNumber); // ✅ Correct card number now
-    console.log("Index Selected:", index); // ✅ Correct index
-  
+
     if (currentTurn) {
       setPlayer1((prev) => ({
         ...prev,
@@ -78,7 +100,6 @@ function GameScreen() {
           {"  "}
           <span className="text-purple-500 font-bold">+{selectedCard}</span>
         </p>
-
 
         <button
           className={`text-white p-1 px-6 rounded-md transition ${
