@@ -3,10 +3,9 @@ import PlayerDeckContainer from "../components/PlayerDeckContainer";
 import DicePick from "./DicePick";
 
 function GameScreen() {
-  // Variables
   const [currentTurn, setCurrentTurn] = useState(true);
   const [rotationTrigger, setRotationTrigger] = useState(false);
-  const [player1, ] = useState({
+  const [player1] = useState({
     name: "Player 1",
     rotation: true,
     characters: [
@@ -15,7 +14,7 @@ function GameScreen() {
       { name: "Pyrael the Frost Fire Sage", role: "Mage" },
     ],
   });
-  const [player2, ] = useState({
+  const [player2] = useState({
     name: "Player 2",
     rotation: true,
     characters: [
@@ -26,6 +25,7 @@ function GameScreen() {
   });
 
   const setPlayerTurn = () => {
+    setIsDicePickVisible(true);
     setCurrentTurn(!currentTurn);
     setRotationTrigger((prev) => !prev);
   };
@@ -33,26 +33,23 @@ function GameScreen() {
   const [selectedCard, setSelectedCard] = useState(null);
 
   const handleCardSelected = (cardNumber) => {
-    // Handle the selected card (do something with the card number)
     setSelectedCard(cardNumber);
     console.log("Card Selected:", cardNumber);
   };
 
-  const [isDicePickVisible, setIsDicePickVisible] = useState(true);
+  const [isDicePickVisible, setIsDicePickVisible] = useState(false);
   const handleClose = () => {
-    // Hide the DicePick component when closed
     setIsDicePickVisible(false);
   };
 
   return (
     <div className="Main_Menu overflow-hidden w-screen h-screen flex flex-col justify-center items-center gap-6 p-4">
-      
       {isDicePickVisible && (
         <DicePick
           singleMode={true}
           player={true}
           onCardSelected={handleCardSelected}
-          onClose={handleClose} // Pass the onClose handler to DicePick
+          onClose={handleClose}
         />
       )}
       <div className="currentTurn w-full flex justify-between items-center">
@@ -64,7 +61,7 @@ function GameScreen() {
           {currentTurn ? "Player 1's Turn" : "Player 2's Turn"}
         </p>
 
-      <h1> {selectedCard}</h1>
+        <h1> {selectedCard}</h1>
         <button
           className={`text-white p-1 px-6 rounded-md transition ${
             currentTurn ? "bg-[#37a1f9]" : "bg-[#f93737]"
