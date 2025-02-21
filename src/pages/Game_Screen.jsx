@@ -62,18 +62,22 @@ function GameScreen() {
   const handleCardSelected = (cardNumber) => {
     setSelectedCard(cardNumber);
 
+    updateSoulPoints(currentTurn ? player1.soulPoints + cardNumber : player2.soulPoints + cardNumber);
+  };
+
+  const updateSoulPoints = (newSoulPoints) => {
     if (currentTurn) {
       setPlayer1((prev) => ({
         ...prev,
-        soulPoints: prev.soulPoints + cardNumber,
+        soulPoints: newSoulPoints,
       }));
     } else {
       setPlayer2((prev) => ({
         ...prev,
-        soulPoints: prev.soulPoints + cardNumber,
+        soulPoints: newSoulPoints,
       }));
     }
-  };
+  }
 
   const [isDicePickVisible, setIsDicePickVisible] = useState(false);
   const handleClose = () => {
@@ -116,6 +120,7 @@ function GameScreen() {
         customClass={`fixed h-1/2 -bottom-10 ${
           currentTurn && "border-x-2 border-[#37a1f9] bg-[#37a1f910]"
         }`}
+        updateSoulPoints={(newPoints) => setPlayer1((prev) => ({ ...prev, soulPoints: newPoints }))}
       />
       <PlayerDeckContainer
         player={player2}
@@ -123,6 +128,7 @@ function GameScreen() {
         customClass={`fixed h-1/2 -top-10 rotate-180 ${
           !currentTurn && "border-x-2  border-[#f93737] bg-[#f9373710]"
         }`}
+        updateSoulPoints={(newPoints) => setPlayer2((prev) => ({ ...prev, soulPoints: newPoints }))}
       />
     </div>
   );
