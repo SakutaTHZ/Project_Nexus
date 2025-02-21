@@ -41,7 +41,15 @@ const DicePick = ({ singleMode, player, onCardSelected, onClose }) => {
   };
 
   return (
-    <div className="opa-50 fixed top-0 right-0 p-4 w-screen h-screen bg-[#00000080] backdrop-blur-md flex flex-col justify-center items-center gap-4 z-20">
+    <div className="opa-50 fixed top-0 right-0 w-screen h-screen bg-[#00000080] backdrop-blur-md flex flex-col justify-center items-center gap-4 z-20">
+      <p className={`title_font text-4xl absolute top-5 ${
+                  player ? "text-blue-500" : "text-red-500"
+                }`}>Pick a Card. Any Card!</p>
+      {
+        showSelectedCard && (
+          <div className="BgPlaceholder w-full h-full" onClick={()=>onClose()}></div>
+        )
+      }
       {singleMode && (
         <div className="slideUp absolute w-full h-2/5 flex justify-center items-center bottom-0">
           {shuffledNumbers.map((num, index) => {
