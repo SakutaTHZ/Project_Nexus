@@ -12,7 +12,11 @@ const DicePick = ({ singleMode, player, onCardSelected, onClose }) => {
 
   useEffect(() => {
     // Shuffle the numbers only once when the component mounts
-    setShuffledNumbers([1, 2, 3, 4].sort(() => Math.random() - 0.5));
+    setShuffledNumbers(
+      Array.from({ length: 6 }, (_, i) => i + 1) // Create an array [1, 2, 3, 4, 5, 6]
+        .sort(() => Math.random() - 0.5) // Shuffle the array
+        .slice(0, 4) // Take the first 4 numbers
+    );
   }, []); // Empty dependency array ensures it runs only once
 
   const handleCardClick = (number, index) => {
@@ -42,40 +46,45 @@ const DicePick = ({ singleMode, player, onCardSelected, onClose }) => {
 
   return (
     <div className="opa-50 fixed top-0 right-0 w-screen h-screen bg-[#00000080] backdrop-blur-md flex flex-col justify-center items-center gap-4 z-20">
-      <p className={`title_font text-4xl absolute top-5 ${
-                  player ? "text-blue-500" : "text-red-500"
-                }`}>Pick a Card. Any Card!</p>
-      {
-        showSelectedCard && (
-          <div className="BgPlaceholder w-full h-full" onClick={()=>onClose()}></div>
-        )
-      }
+      <p
+        className={`title_font text-4xl absolute top-5 ${
+          player ? "text-blue-500" : "text-red-500"
+        }`}
+      >
+        Pick a Card. Any Card!
+      </p>
+      {showSelectedCard && (
+        <div
+          className="BgPlaceholder w-full h-full"
+          onClick={() => onClose()}
+        ></div>
+      )}
       {singleMode && (
         <div className="slideUp absolute w-full h-2/5 flex justify-center items-center bottom-0">
           {shuffledNumbers.map((num, index) => {
-              const offsets = [
-                "-rotate-15 translate-y-68 -translate-x-50 md:translate-y-72 md:-translate-x-74",
-                "-rotate-8 translate-y-64 -translate-x-24 md:translate-y-64 md:-translate-x-34",
-                "rotate-8 translate-y-64  -translate-x-4 md:translate-y-64 md:translate-x-2",
-                "rotate-15 translate-y-68 translate-x-18 md:translate-y-72 md:translate-x-42",
-              ];
+            const offsets = [
+              "-rotate-15 translate-y-68 -translate-x-50 md:translate-y-72 md:-translate-x-74",
+              "-rotate-8 translate-y-64 -translate-x-24 md:translate-y-64 md:-translate-x-34",
+              "rotate-8 translate-y-64  -translate-x-4 md:translate-y-64 md:translate-x-2",
+              "rotate-15 translate-y-68 translate-x-18 md:translate-y-72 md:translate-x-42",
+            ];
 
-              return (
-                <FlipCard
-                  key={index}
-                  player={player}
-                  number={num}
-                  index={index} // Correctly passing index
-                  isFlipped={flippedCards[index] || false} // Flip logic fixed
-                  setSelectedCard={handleCardClick}
-                  selectedCard={selectedCard}
-                  borderedCard={borderedCard}
-                  customClass={`absolute ${offsets[index]} index-${index} number-${num}`}
-                  showSelectedCard={showSelectedCard}
-                  isDisabled={selectedCard !== null}
-                />
-              );
-            })}
+            return (
+              <FlipCard
+                key={index}
+                player={player}
+                number={num}
+                index={index} // Correctly passing index
+                isFlipped={flippedCards[index] || false} // Flip logic fixed
+                setSelectedCard={handleCardClick}
+                selectedCard={selectedCard}
+                borderedCard={borderedCard}
+                customClass={`absolute ${offsets[index]} index-${index} number-${num}`}
+                showSelectedCard={showSelectedCard}
+                isDisabled={selectedCard !== null}
+              />
+            );
+          })}
         </div>
       )}
     </div>

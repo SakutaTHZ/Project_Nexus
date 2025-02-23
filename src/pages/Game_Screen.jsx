@@ -10,13 +10,21 @@ function GameScreen() {
     soulPoints: 0,
     rotation: true,
     characters: [
-      { name: "Aegis Warden", role: "Tank", health: 100, sp: 0, statuses: [] },
+      {
+        name: "Aegis Warden",
+        role: "Tank",
+        health: 100,
+        sp: 0,
+        statuses: [],
+        weapon: [{ name: "Sword", durability: 3 }],
+      },
       {
         name: "Elandra Aurelian",
         role: "Healer",
         health: 100,
         sp: 0,
         statuses: [],
+        weapon: [{ name: "Sword", durability: 3 }],
       },
       {
         name: "Pyrael the Frost Fire Sage",
@@ -24,6 +32,7 @@ function GameScreen() {
         health: 100,
         sp: 0,
         statuses: [],
+        weapon: [{ name: "Sword", durability: 3 }],
       },
     ],
   });
@@ -33,13 +42,21 @@ function GameScreen() {
     soulPoints: 0,
     rotation: true,
     characters: [
-      { name: "Aegis Warden", role: "Tank", health: 100, sp: 0, statuses: [] },
+      {
+        name: "Aegis Warden",
+        role: "Tank",
+        health: 100,
+        sp: 0,
+        statuses: [],
+        weapon: [{ name: "Sword", durability: 3 }],
+      },
       {
         name: "Elandra Aurelian",
         role: "Healer",
         health: 100,
         sp: 0,
         statuses: [],
+        weapon: [{ name: "Sword", durability: 3 }],
       },
       {
         name: "Pyrael the Frost Fire Sage",
@@ -47,22 +64,25 @@ function GameScreen() {
         health: 100,
         sp: 0,
         statuses: [],
+        weapon: [{ name: "Sword", durability: 3 }],
       },
     ],
   });
 
+  const [selectedCard, setSelectedCard] = useState(null);
+
   const setPlayerTurn = () => {
-    setIsDicePickVisible(true);
     setCurrentTurn(!currentTurn);
     setRotationTrigger((prev) => !prev);
   };
 
-  const [selectedCard, setSelectedCard] = useState(null);
-
   const handleCardSelected = (cardNumber) => {
     setSelectedCard(cardNumber);
-
-    updateSoulPoints(currentTurn ? player1.soulPoints + cardNumber : player2.soulPoints + cardNumber);
+    updateSoulPoints(
+      currentTurn
+        ? player1.soulPoints + cardNumber
+        : player2.soulPoints + cardNumber
+    );
   };
 
   const updateSoulPoints = (newSoulPoints) => {
@@ -77,11 +97,30 @@ function GameScreen() {
         soulPoints: newSoulPoints,
       }));
     }
-  }
+  };
 
   const [isDicePickVisible, setIsDicePickVisible] = useState(false);
   const handleClose = () => {
     setIsDicePickVisible(false);
+  };
+
+  // Function to update character data by name
+  const updateCharacterData = (characterName, newData) => {
+    if (currentTurn) {
+      setPlayer1((prev) => ({
+        ...prev,
+        characters: prev.characters.map((char) =>
+          char.name === characterName ? { ...char, ...newData } : char
+        ),
+      }));
+    } else {
+      setPlayer2((prev) => ({
+        ...prev,
+        characters: prev.characters.map((char) =>
+          char.name === characterName ? { ...char, ...newData } : char
+        ),
+      }));
+    }
   };
 
   return (
@@ -120,15 +159,22 @@ function GameScreen() {
         customClass={`fixed h-1/2 -bottom-10 ${
           currentTurn && "border-x-2 border-[#37a1f9] bg-[#37a1f910]"
         }`}
-        updateSoulPoints={(newPoints) => setPlayer1((prev) => ({ ...prev, soulPoints: newPoints }))}
+        updateSoulPoints={(newPoints) =>
+          setPlayer1((prev) => ({ ...prev, soulPoints: newPoints }))
+        }
+        updateCharacterData={updateCharacterData}
       />
+
       <PlayerDeckContainer
         player={player2}
         rotationTrigger={rotationTrigger}
         customClass={`fixed h-1/2 -top-10 rotate-180 ${
           !currentTurn && "border-x-2  border-[#f93737] bg-[#f9373710]"
         }`}
-        updateSoulPoints={(newPoints) => setPlayer2((prev) => ({ ...prev, soulPoints: newPoints }))}
+        updateSoulPoints={(newPoints) =>
+          setPlayer2((prev) => ({ ...prev, soulPoints: newPoints }))
+        }
+        updateCharacterData={updateCharacterData}
       />
     </div>
   );
