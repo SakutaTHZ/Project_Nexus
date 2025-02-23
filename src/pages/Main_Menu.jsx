@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import AegisWarden from "../assets/Prototype 0.1/Characters/Aegis Warden.png";
+import AegisWarden from "../assets/Prototype 0.1/Characters/Aegis_Warden.png";
 import Bulwark from "../assets/Prototype 0.1/Characters/Bulwark_Thane.png";
 import Thalor from "../assets/Prototype 0.1/Characters/Thalor_the_Crowned_Knight.png";
 

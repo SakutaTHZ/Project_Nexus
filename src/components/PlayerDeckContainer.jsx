@@ -27,7 +27,7 @@ const PlayerDeckContainer = ({
   }
 
   const updateCharacterStats = (characterName, newData) => {
-    updateCharacterData(characterName, newData); // Use parent's update function
+    updateCharacterData(player.name,characterName, newData); 
   };
 
   return (
@@ -42,7 +42,7 @@ const PlayerDeckContainer = ({
       {showCharacterEditBox && (
         <CharactersEditBox
           characters={player.characters}
-          updateCharacterData={updateCharacterStats} // Pass the correct function
+          updateCharacterData={updateCharacterStats} 
           closeEditBox={() => setShowCharacterEditBox(false)}
         />
       )}
@@ -178,7 +178,7 @@ const CharactersEditBox = ({ characters, updateCharacterData, closeEditBox }) =>
 
   const saveChanges = () => {
     editedCharacters.forEach((char) => {
-      updateCharacterData(char.name, char); // Correct usage: Pass character name and data
+      updateCharacterData(char.name, char); 
     });
     closeEditBox();
   };
@@ -189,12 +189,7 @@ const CharactersEditBox = ({ characters, updateCharacterData, closeEditBox }) =>
       <div className="bg-[#00000095] z-[55] p-8 sm:p-16 flex flex-col justify-center items-start gap-4 rounded-md">
         {editedCharacters.map((character, index) => (
           <div key={index} className="flex flex-col justify-between items-center w-full">
-            <input
-              type="text"
-              value={character.name}
-              onChange={(e) => handleChange(index, "name", e.target.value)}
-              className="text-xl bg-gray-700 text-white p-2 rounded-md"
-            />
+            <p>{character.name}</p>
             <input
               type="number"
               value={character.health}

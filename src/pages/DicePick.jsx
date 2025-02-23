@@ -4,33 +4,33 @@ import CardBack from "../assets/Prototype 0.1/Card Back And Tokens/Card Back.png
 
 const DicePick = ({ singleMode, player, onCardSelected, onClose }) => {
   const [selectedCard, setSelectedCard] = useState(null);
-  const [borderedCard, setBorderedCard] = useState(null); // Tracks the card with the border
+  const [borderedCard, setBorderedCard] = useState(null); 
   const [flippedCards, setFlippedCards] = useState({});
   const [showSelectedCard, setShowSelectedCard] = useState(false);
 
   const [shuffledNumbers, setShuffledNumbers] = useState([]);
 
   useEffect(() => {
-    // Shuffle the numbers only once when the component mounts
+    
     setShuffledNumbers(
-      Array.from({ length: 6 }, (_, i) => i + 1) // Create an array [1, 2, 3, 4, 5, 6]
-        .sort(() => Math.random() - 0.5) // Shuffle the array
-        .slice(0, 4) // Take the first 4 numbers
+      Array.from({ length: 6 }, (_, i) => i + 1) 
+        .sort(() => Math.random() - 0.5) 
+        .slice(0, 4) 
     );
-  }, []); // Empty dependency array ensures it runs only once
+  }, []); 
 
   const handleCardClick = (number, index) => {
-    if (selectedCard !== null) return; // Prevent multiple selections
+    if (selectedCard !== null) return; 
 
     if (borderedCard === index) {
       setFlippedCards((prev) => ({
         ...prev,
-        [index]: !prev[index], // Flip based on index
+        [index]: !prev[index], 
       }));
 
-      onCardSelected(number, index); // ✅ Pass correct number and index
+      onCardSelected(number, index); 
 
-      setSelectedCard(number); // ✅ Store the actual card number, not index
+      setSelectedCard(number); 
       setBorderedCard(null);
       setShowSelectedCard(true);
 
@@ -74,8 +74,8 @@ const DicePick = ({ singleMode, player, onCardSelected, onClose }) => {
                 key={index}
                 player={player}
                 number={num}
-                index={index} // Correctly passing index
-                isFlipped={flippedCards[index] || false} // Flip logic fixed
+                index={index} 
+                isFlipped={flippedCards[index] || false} 
                 setSelectedCard={handleCardClick}
                 selectedCard={selectedCard}
                 borderedCard={borderedCard}
@@ -95,7 +95,7 @@ const FlipCard = ({
   customClass,
   player,
   number,
-  index, // Accept index
+  index, 
   isFlipped,
   setSelectedCard,
   selectedCard,
@@ -106,11 +106,11 @@ const FlipCard = ({
   return (
     <div
       className={`perspective-1000 transition-all absolute cursor-pointer ${
-        selectedCard === selectedCard // Compare selected card properly
+        selectedCard === selectedCard 
           ? "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 scale-125"
           : ""
       } ${!isFlipped && customClass}`}
-      onClick={() => !isDisabled && setSelectedCard(number, index)} // Pass correct values
+      onClick={() => !isDisabled && setSelectedCard(number, index)} 
     >
       <div
         className={`relative w-32 h-48 transition-transform duration-500 transform ${
@@ -125,7 +125,7 @@ const FlipCard = ({
               ? `border-4 -translate-y-2 ${
                   player ? "text-blue-500" : "text-red-500"
                 }`
-              : "border-gray-600" // Apply border properly
+              : "border-gray-600" 
           }`}
           style={{ backfaceVisibility: "hidden" }}
         >
@@ -180,7 +180,7 @@ FlipCard.propTypes = {
   isFlipped: PropTypes.bool,
   setSelectedCard: PropTypes.func,
   selectedCard: PropTypes.number,
-  borderedCard: PropTypes.number, // Accept borderedCard prop
+  borderedCard: PropTypes.number, 
   customClass: PropTypes.string,
   showSelectedCard: PropTypes.bool,
   isDisabled: PropTypes.bool,

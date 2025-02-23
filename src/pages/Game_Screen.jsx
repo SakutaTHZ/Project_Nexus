@@ -11,7 +11,7 @@ function GameScreen() {
     rotation: true,
     characters: [
       {
-        name: "Aegis Warden",
+        name: "Aegis_Warden",
         role: "Tank",
         health: 100,
         sp: 0,
@@ -19,7 +19,7 @@ function GameScreen() {
         weapon: [{ name: "Sword", durability: 3 }],
       },
       {
-        name: "Elandra Aurelian",
+        name: "Leandra_Aurelian",
         role: "Healer",
         health: 100,
         sp: 0,
@@ -27,7 +27,7 @@ function GameScreen() {
         weapon: [{ name: "Sword", durability: 3 }],
       },
       {
-        name: "Pyrael the Frost Fire Sage",
+        name: "Pyrael_the_Frostfire_Sage",
         role: "Mage",
         health: 100,
         sp: 0,
@@ -43,7 +43,7 @@ function GameScreen() {
     rotation: true,
     characters: [
       {
-        name: "Aegis Warden",
+        name: "Bulwark_Thane",
         role: "Tank",
         health: 100,
         sp: 0,
@@ -51,7 +51,7 @@ function GameScreen() {
         weapon: [{ name: "Sword", durability: 3 }],
       },
       {
-        name: "Elandra Aurelian",
+        name: "Solara_the_Purifier",
         role: "Healer",
         health: 100,
         sp: 0,
@@ -59,7 +59,7 @@ function GameScreen() {
         weapon: [{ name: "Sword", durability: 3 }],
       },
       {
-        name: "Pyrael the Frost Fire Sage",
+        name: "Thalor_the_Crowned_Knight",
         role: "Mage",
         health: 100,
         sp: 0,
@@ -72,6 +72,7 @@ function GameScreen() {
   const [selectedCard, setSelectedCard] = useState(null);
 
   const setPlayerTurn = () => {
+    setIsDicePickVisible(true);
     setCurrentTurn(!currentTurn);
     setRotationTrigger((prev) => !prev);
   };
@@ -105,8 +106,8 @@ function GameScreen() {
   };
 
   // Function to update character data by name
-  const updateCharacterData = (characterName, newData) => {
-    if (currentTurn) {
+  const updateCharacterData = (player,characterName, newData) => {
+    if (player === "Player 1") {
       setPlayer1((prev) => ({
         ...prev,
         characters: prev.characters.map((char) =>
