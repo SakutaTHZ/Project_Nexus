@@ -27,7 +27,7 @@ const PlayerDeckContainer = ({
   }
 
   const updateCharacterStats = (characterName, newData) => {
-    updateCharacterData(player.name,characterName, newData); 
+    updateCharacterData(player.name, characterName, newData);
   };
 
   return (
@@ -41,8 +41,9 @@ const PlayerDeckContainer = ({
       )}
       {showCharacterEditBox && (
         <CharactersEditBox
+          player={player}
           characters={player.characters}
-          updateCharacterData={updateCharacterStats} 
+          updateCharacterData={updateCharacterStats}
           closeEditBox={() => setShowCharacterEditBox(false)}
         />
       )}
@@ -167,7 +168,12 @@ const SoulsEditBox = ({ soulPoints, updateSoulPoints, closeEditBox }) => {
   );
 };
 
-const CharactersEditBox = ({ characters, updateCharacterData, closeEditBox }) => {
+const CharactersEditBox = ({
+  player,
+  characters,
+  updateCharacterData,
+  closeEditBox,
+}) => {
   const [editedCharacters, setEditedCharacters] = useState([...characters]);
 
   const handleChange = (index, field, value) => {
@@ -178,7 +184,7 @@ const CharactersEditBox = ({ characters, updateCharacterData, closeEditBox }) =>
 
   const saveChanges = () => {
     editedCharacters.forEach((char) => {
-      updateCharacterData(char.name, char); 
+      updateCharacterData(char.name, char);
     });
     closeEditBox();
   };
@@ -187,15 +193,35 @@ const CharactersEditBox = ({ characters, updateCharacterData, closeEditBox }) =>
     <div className="soulEditBox fixed w-screen h-screen bg-[#00000080] backdrop-blur-md z-50 flex justify-center items-center">
       <div className="w-full h-full fixed z-[51]" onClick={closeEditBox}></div>
       <div className="bg-[#00000095] z-[55] p-8 sm:p-16 flex flex-col justify-center items-start gap-4 rounded-md">
+        <p className={`text-2xl font-bold ${
+            player.name === "Player 1" ? "text-blue-400" : "text-red-400"
+          }`}>{player.name}</p>
         {editedCharacters.map((character, index) => (
-          <div key={index} className="flex flex-col justify-between items-center w-full">
-            <p>{character.name}</p>
-            <input
-              type="number"
-              value={character.health}
-              onChange={(e) => handleChange(index, "health", Number(e.target.value))}
-              className="text-xl bg-gray-700 text-white p-2 rounded-md"
-            />
+          <div
+            key={index}
+            className="flex flex-col justify-between items-center gap-1 w-full"
+          >
+            <p className="w-full text-left text-xl title_font">
+              {character.name}
+            </p>
+            <div className="flex flex-col gap-2 items-center w-full">
+              <input
+                type="number"
+                value={character.health}
+                onChange={(e) =>
+                  handleChange(index, "health", Number(e.target.value))
+                }
+                className="text-xl bg-[#ffffff20] border-2 border-red-400 text-white font-semibold p-1 px-2 rounded-md"
+              />
+              <input
+                type="number"
+                value={character.sp}
+                onChange={(e) =>
+                  handleChange(index, "sp", Number(e.target.value))
+                }
+                className="text-xl bg-[#ffffff20] border-2 border-blue-400 text-white font-semibold p-1 px-2 rounded-md"
+              />
+            </div>
           </div>
         ))}
         <button
@@ -210,6 +236,16 @@ const CharactersEditBox = ({ characters, updateCharacterData, closeEditBox }) =>
 };
 
 CharactersEditBox.propTypes = {
+  player: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    soulPoints: PropTypes.number.isRequired,
+    characters: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        health: PropTypes.number.isRequired,
+      })
+    ),
+  }).isRequired,
   closeEditBox: PropTypes.func.isRequired,
   characters: PropTypes.arrayOf(
     PropTypes.shape({
